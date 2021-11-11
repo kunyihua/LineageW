@@ -5,7 +5,7 @@ Detecter for LineageW:
 
 # How to use
   1. Run it. It's very simply.
-  2. If game updated, replace the HP/MP pointer in MemoryAddress.txt.
+  2. If game updated, replace the pointer in MemoryAddress.txt.
   3. To enable preeskey function, please turn off eco mode.
 
 # Note
