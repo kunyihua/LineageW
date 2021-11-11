@@ -1,6 +1,6 @@
 # LineageW
-Alarmer for LineageW:
-![](https://i.imgur.com/saoFC7N.png)
+Detecter for LineageW:
+![](https://i.imgur.com/YgC5UPE.jpg)
 
 
 # How to use
