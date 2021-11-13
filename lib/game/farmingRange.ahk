@@ -8,6 +8,7 @@ MoveingTo(MyX, MyY, TX, TY, LR_X, LR_Y) {
         LR_Y = Limit Range Y
     */ 
     global Moving ; Gui switch control
+    static lastMove := 0
     GuiControl, , MyPosition_X, % MyX
     GuiControl, , MyPosition_Y, % MyY
     if (abs(MyX-TX)>(LR_X+20) or abs(MyY-TY)>(LR_Y+20)) {
@@ -17,7 +18,8 @@ MoveingTo(MyX, MyY, TX, TY, LR_X, LR_Y) {
     else {
         GuiControl, , PositionTX, % "Range X: " abs(MyX-TX) ", Y: " abs(MyY-TY)
     }
-    if (Moving and (MyX-TX>LR_X or TX-MyX>LR_X or MyY-TY>LR_Y or TY-MyY>LR_Y)) {
+    if (Moving and A_tickcount-lastMove>700 
+    and (MyX-TX>LR_X or TX-MyX>LR_X or MyY-TY>LR_Y or TY-MyY>LR_Y)) {
         key := []
         if (MyX-TX>LR_X) {
             key.push("A")
@@ -37,8 +39,8 @@ MoveingTo(MyX, MyY, TX, TY, LR_X, LR_Y) {
         }
         GuiControl, , PositionTX, % "Moving " key[1] " " key[2]
         Sendkey(key, 800)
-        sleep 700
         GuiControl, , PositionTX, % ""
+        lastMove := A_TickCount
     }
 }
 
