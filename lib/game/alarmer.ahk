@@ -1,9 +1,7 @@
-UpdateAlarmer(MyHP, MaxHP, MyHPPercent, MyMP, MaxMP, MyMPPercent, BagOpen) {
+UpdateAlarmer(MyHP, MaxHP, MyHPPercent, MyMP, MaxMP, MyMPPercent, bagOpen) {
     global GuiMaxLoop
-    if (MyHP>99999 or MaxHP<-1 or MyMP>99999 or MaxMP<-1 or !MaxHP or !MaxMP or BagOpen!=0) {
-        tx := (BagOpen!=0 and MaxHP and MaxMP) 
-        ? "Waiting for close bag."
-        : "Reading data ... "
+    if (MyHP>99999 or MaxHP<-1 or MyMP>99999 or MaxMP<-1 or !MaxHP or !MaxMP or BagOpen) {
+        tx := BagOpen ? "waiting for close bag" : "Reading data"
         GuiControl, , HPBar, 100
         GuiControl, , HPTX, % tx
         GuiControl, , MPBar, 100
@@ -33,18 +31,14 @@ UpdateAlarmer(MyHP, MaxHP, MyHPPercent, MyMP, MaxMP, MyMPPercent, BagOpen) {
 AutoCast() {
     global
     HpSort := "", alarm := 0
-    Loop, % GuiMaxLoop {
+    Loop, % GuiMaxLoop-1 
         CB_%A_index% ? HpSort.= HP_%A_index% "," A_index "|"
-    }
     HpSorted := RTrim(HpSort, "|")
     Sort, HpSorted , N D|
     for k, v in HpArray := Strsplit(HpSorted, "|") {
         THP := Strsplit(v, ",")
         num := THP[2]
         if (MyHPPercent<=HP_%num% and MyMPPercent>=MP_%num%) {
-            if (num=GuiMaxLoop) {
-                AlarmME(HP_%num%)
-            }
             if (A_TickCount-KeyCD%num%>=CD_%num%*1000) {
                 KeyCD%num% := A_TickCount
                 SendKey(PK_%num%)
@@ -52,6 +46,8 @@ AutoCast() {
             }
         }
     }
+    if (CB_%GuiMaxLoop% and MyHPPercent<=HP_%GuiMaxLoop% and MyMPPercent>=MP_%GuiMaxLoop%)
+        AlarmME(HP_%num%)
 }
 
 AlarmME(SetHP) {
