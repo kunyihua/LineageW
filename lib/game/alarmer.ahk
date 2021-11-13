@@ -47,7 +47,7 @@ AutoCast() {
         }
     }
     if (CB_%GuiMaxLoop% and MyHPPercent<=HP_%GuiMaxLoop% and MyMPPercent>=MP_%GuiMaxLoop%)
-        AlarmME(HP_%num%)
+        AlarmME(HP_%GuiMaxLoop%)
 }
 
 AlarmME(SetHP) {
