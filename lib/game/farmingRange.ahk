@@ -18,30 +18,26 @@ MoveingTo(MyX, MyY, TX, TY, LR_X, LR_Y) {
         GuiControl, , PositionTX, % "Range X: " abs(MyX-TX) ", Y: " abs(MyY-TY)
     }
     if (Moving and (MyX-TX>LR_X or TX-MyX>LR_X or MyY-TY>LR_Y or TY-MyY>LR_Y)) {
-        sleep 500
         key := []
         if (MyX-TX>LR_X) {
-            (MyY-TY>2) ? key.push("S")
-            : (TY-MY>2) ? key.push("W")
             key.push("A")
+            (MyY-TY>2) ? key.push("W") : (TY-MyY>2) ? key.push("S")
         }
         else if (TX-MyX>LR_X) {
-            (MyY-TY>2) ? key.push("S")
-            : (TY-MY>2) ? key.push("W")
-            key.push("D") 
+            key.push("D")
+            (MyY-TY>2) ? key.push("W") : (TY-MyY>2) ? key.push("S")
         }
         else if (MyY-TY>LR_Y) {
-            (MyX-TX>2) ? key.push("A") 
-            : (TX-MyX>2) ?key.push("D")
             key.push("W")
+            (MyX-TX>2) ? key.push("A") : (TX-MyX>2) ? key.push("D")
         }
         else if (TY-MyY>LR_Y) {
-            (MyX-TX>2) ? key.push("A") 
-            : (TX-MyX>2) ?key.push("D")
-            key.push("S") 
+            key.push("S")
+            (MyX-TX>2) ? key.push("A") : (TX-MyX>2) ? key.push("D")
         }
         GuiControl, , PositionTX, % "Moving " key[1] " " key[2]
         Sendkey(key, 800)
+        sleep 700
         GuiControl, , PositionTX, % ""
     }
 }
