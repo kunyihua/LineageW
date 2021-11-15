@@ -21,7 +21,6 @@
         Menu, Tray, NoStandard
         Menu, Tray, Tip , % this.ScriptName
     }
-
 }
 
 BuildGui() {
@@ -37,6 +36,30 @@ BuildGui() {
     Gui, 1:Add, Text, x10 yp w540 h25 vMPTX 0x201 +Border BackgroundTrans, 
     Gui, 1:Font, s12 w500 cFFFFFF, Arial 
 
+
+    GuiGroup_Alarmer()
+
+    GuiGroup_FarmingRange()
+    
+
+    Gui, 1:Add, checkbox, x10 y+20 gGetGui vStop, Pause
+    Gui, 1:Add, checkbox, x+10 yp gGetGui vSendSpace, SendSpace
+    Gui, 1:Add, checkbox, x+10 yp gGetGui vSendQ, SendQ
+    Gui, 1:Add, text, x+10 yp , Hotkey: Alt+E/Q
+    Gui, 1:Add, Button, x+20 yp w100 h20 gGuiClose, ExitApp
+
+    
+    ownerAhkId := "ahk_id " . Win_Hwnd, ownedAhkId := "ahk_id " . owned
+    Gui, 1:Show, w560, % init.ScriptName
+    WinSet, Trans, 210, % "ahk_id " owned
+    GuiController.GuiLoad(init.setting_name, init.setting_Section, init.ScriptName)
+    hWinEventHook := SetWinEventHook("0x800B", "0x800B", 0, RegisterCallback("OnLocationChangeMonitor"), PID, 0, 0)
+    OnLocationChangeMonitor(0, 0, 1)
+    return
+}
+
+GuiGroup_Alarmer() {
+    global
     Gui, 1:Add, GroupBox, x10 y80 w540 h220, Alarmer
     x := 20, y := 110
     GuiMaxLoop := 5
@@ -62,11 +85,12 @@ BuildGui() {
         KeyCD%A_index% := 0
         y += 40
     }
+}
 
-    
+GuiGroup_FarmingRange() {
+    global
     Gui, 1:Add, GroupBox, x10 y310 w540 h120, FarmingRange
     x := 20, y := 340
-
     Gui, 1:Add, checkbox, x%x% y%y% vMoving gGetGui, Enable
     Gui, 1:Add, text, x+30 yp, X
     Gui, 1:Add, text, x+60 yp, Y
@@ -85,20 +109,6 @@ BuildGui() {
     Gui, 1:Add, edit, x+10 yp-3 w60 ReadOnly vMyPosition_X, 0
     Gui, 1:Add, edit, x+10 yp w60 ReadOnly vMyPosition_Y, 0
     Gui, 1:Add, text, x+10 yp+3 w200 vPositionTX, 
-    
-    Gui, 1:Add, checkbox, x10 y+20 gGetGui vStop, Pause
-    Gui, 1:Add, checkbox, x+10 yp gGetGui vSendSpace, SendSpace
-    Gui, 1:Add, checkbox, x+10 yp gGetGui vSendQ, SendQ
-    Gui, 1:Add, text, x+10 yp , Hotkey: Alt+E/Q
-    Gui, 1:Add, Button, x+20 yp w100 h20 gGuiClose, ExitApp
-
-    ownerAhkId := "ahk_id " . Win_Hwnd, ownedAhkId := "ahk_id " . owned
-    Gui, 1:Show, w560, % init.ScriptName
-    WinSet, Trans, 210, % "ahk_id " owned
-    GuiController.GuiLoad(init.setting_name, init.setting_Section, init.ScriptName)
-    hWinEventHook := SetWinEventHook("0x800B", "0x800B", 0, RegisterCallback("OnLocationChangeMonitor"), PID, 0, 0)
-    OnLocationChangeMonitor(0, 0, 1)
-    return
 }
 
 GetGui() {

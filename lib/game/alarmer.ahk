@@ -1,6 +1,8 @@
 UpdateAlarmer(MyHP, MaxHP, MyHPPercent, MyMP, MaxMP, MyMPPercent, bagOpen) {
     global GuiMaxLoop
-    if (MyHP>99999 or MaxHP<-1 or MyMP>99999 or MaxMP<-1 or !MaxHP or !MaxMP or BagOpen) {
+    if (MyHP<=-1 or MaxHP>=99999 or !MaxHP or MyHPPercent<=-1 or MyHPPercent>100)
+    or (MyMP<=-1 or MaxMP>=99999 or !MaxMP or MyMPPercent<=-1 or MyMPPercent>100 or (MyHP=1 and MaxMP=1))
+    or (BagOpen) {
         tx := BagOpen ? "waiting for close bag" : "Reading data"
         GuiControl, , HPBar, 100
         GuiControl, , HPTX, % tx
@@ -16,7 +18,7 @@ UpdateAlarmer(MyHP, MaxHP, MyHPPercent, MyMP, MaxMP, MyMPPercent, bagOpen) {
         GuiControl, , MPTX, % "MP: " MyMP " / " MaxMP "  ( " MyMPPercent "`% )"
         Loop, % GuiMaxLoop-1 {
             CD := CD_%A_index%-Round((A_TickCount-KeyCD%A_index%)/1000, 0)
-            if (CD>0) {
+            if (CD>=0) {
                 GuiControl, , CDTX_%A_index% , % "CD ( " CD " )"
                 Guicontrol, +cRed +Redraw, CDTX_%A_index%
             }
@@ -30,7 +32,7 @@ UpdateAlarmer(MyHP, MaxHP, MyHPPercent, MyMP, MaxMP, MyMPPercent, bagOpen) {
 
 AutoCast() {
     global
-    HpSort := "", alarm := 0
+    HpSort := ""
     Loop, % GuiMaxLoop-1 
         CB_%A_index% ? HpSort.= HP_%A_index% "," A_index "|"
     HpSorted := RTrim(HpSort, "|")
@@ -51,7 +53,6 @@ AutoCast() {
 }
 
 AlarmME(SetHP) {
-    global
     WinActivate, % init.window
     Loop, 3 {
         SoundBeep, 800, 500

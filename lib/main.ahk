@@ -36,7 +36,7 @@ Main() {
         sleep % T := (A_TickCount-st>340) ? 10 : (340-(A_TickCount-st))
     }
     Msgbox % init.window " closed!"
-    ExitApp
+    GuiClose()
 }
 
 _Memory(obj) {
