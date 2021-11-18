@@ -22,7 +22,7 @@ Main() {
         MyPosition_X := mem.read(addr.MyPosition_XAddr, "Int")
         MyPosition_Y := mem.read(addr.MyPosition_YAddr, "Int")
 
-        if UpdateAlarmer(MyHP, MaxHP, MyHPPercent, MyMP, MaxMP, MyMPPercent, BagOpen) or Stop {
+        if UpdateAlarmer(MyHP, MaxHP, MyHPPercent, MyMP, MaxMP, MyMPPercent, bagOpen) or Stop {
             sleep 500
             (!Stop) ? addr := new MemAddr(mem)
             Continue

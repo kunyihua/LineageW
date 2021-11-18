@@ -4,7 +4,7 @@
 
         this.obj := object
 
-        this.LocalPlayer := 0x0709B9A0
+        this.LocalPlayer := 0x070FB860
             
         this.HP_offset := [0x30, 0x228, 0x52C]
         this.MP_offset := [0x30, 0x228, 0x770]
@@ -12,7 +12,7 @@
         this.MyPosition_X_offset := [0x30, 0x648]
         this.MyPosition_Y_offset := [0x30, 0x64C]
 
-        this.BagOpen_Base := 0x683A134
+        this.BagOpen_Base := 0x6899140
         
 
         this.HPAddr := this.obj.getAddressFromOffsets(this.obj.baseAddress + this.LocalPlayer, this.HP_offset*)
